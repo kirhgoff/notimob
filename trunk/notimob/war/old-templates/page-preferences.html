@@ -1,0 +1,14 @@
+{include file=header_small.tpl}
+<h1>Настройки</h1>
+<h1>Подключения</h1>
+
+{foreach from=$connections item=connection}
+<div><img src="{$connection->plugin->icon}"  align="middle">{$connection->plugin->title}: {$connection->username} 
+&nbsp;<a href="index.php?page=edit-connection&connection={$connection->id}">>>></a>
+</div>
+{/foreach}
+<div>
+
+<a href="index.php?page=choose-connection">Добавить</a></div>
+<div><br/><a href="index.php">Главная</a></div>
+{include file=footer.tpl}

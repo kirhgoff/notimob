@@ -1,0 +1,26 @@
+#parse ("header_small.html")
+
+<h1>Авторизация</h1>
+<form method="POST" action="/notimob">
+<input id="page" name="page" type="hidden" value="main"/>
+
+<div >
+#if ($errorMessage)
+<div class="error">Ошибка: $errorMessage</div>
+#end
+
+<div class="form_field" >имя&nbsp;<input type="text" name="login" id="login" width="20"/></div>
+<div class="form_field" >пароль&nbsp;<input type="password" name="password" id="password" width="20"/></div>
+<div ><input type="submit" name="submit-login" id="submit-login" width="20" value="войти"/></div>
+</div>
+<br/>
+</form>
+
+<div>
+<!-- TODO Ivan - add passwords recall page -->
+<a href="/notimob?page=recall-password">Вспомнить пароль</a><br/>
+<a href="/notimob?page=registration">Регистрация</a><br/>
+<a href="/notimob?page=proxy-back">Назад</a>
+</div>
+
+#parse ("footer.html") 

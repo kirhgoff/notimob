@@ -1,0 +1,30 @@
+{include file=header_small.tpl}
+<h1>Регистрация</h1>
+<div>Зарегистрировавшись вы сможете проверять все свои сервисы за один раз.</div>
+<form method="post" action="/">
+{if isset($errorMessage) && $errorMessage != $emptyString}
+<div class="error">Ошибка: {$errorMessage}</div>
+{/if}
+<div class="form_field">*Логин:  &nbsp;<br/>
+  <input name="newLogin" type="text" class="text" id="login" />
+</div>
+<div class="form_field">*Пароль:<br/>
+  <input name="newPassword" type="text" class="text" id="password" />
+</div>
+<div class="form_field">Эл.&nbsp;почта<br/>
+  <input name="email" type="text" class="text" id="email" />
+</div>
+
+<div>
+<input id="command" name="command" type="hidden" value="create-user"/>
+<input type="submit" class="text" value="Создать" width="20"/>
+<input id="page" name="page" type="hidden" value="login"/>
+</div>
+
+</form>
+
+<div>
+<br/><a href="index.php">На главную</a>
+</div>
+
+{include file=footer.tpl}

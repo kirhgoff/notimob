@@ -1,0 +1,73 @@
+#include ("header_big.html")
+
+#if ($errorMessage && $errorMessage != "")
+	<div class="error">Ошибка: {$errorMessage}</div>
+#end
+
+#*
+{if $notifications|@count >0 }
+{* проверка есть ли нотификации *}
+	<p>На этих сайтах у вас есть новые сообщения, <a href='index.php?page=preferences'>{$user->username}</a>:</p>
+	<br />
+	<div>
+	
+	{*foreach from=$notifications key=pluginAlias item=extPlugin}
+		<img src="{$extPlugin.plugin_icon}" align="middle">
+		&nbsp;
+		{if $extPlugin.num > 0}<a href="index.php?page=list-notifications&amp;connectionId={$extPlugin.id}">{/if}{$extPlugin.plugin_title} ({$extPlugin.num})</a>
+		<br />
+	{/foreach*}
+</div>
+{else}
+	{* в эту ветку мы попадем только если нет коннкешнов вообще - посмотри в код 
+		Client::getNotificationsForPluginByGivenConnection($connection)*}
+	{if $connections|@count >0 } 
+		{* коннекции есть, сообщений нет*}
+		<p>К сожалению, вам никто не написал.</p>
+		<p>Можем предложить вам 
+		<a href="index.php?page=choose-connection">добавить сервис</a>
+		или посмотреть <a href='#'>последние новости</a>
+		</p>
+	{else}
+		{* ничего нет*}
+		<p><a href='index.php?page=preferences'>{$user->username}</a>, 
+		у вас не добавлено ни одного соединения.
+		<br/> 
+		Чтобы получать новые сообщения, вам нужно 
+		<a href="index.php?page=choose-connection">добавить сервис</a> 
+		откуда вы хотите получать нотификации.</p>
+		<p><a href="#help">Помощь</a></p>
+	{/if}
+{/if}
+*#
+<div class='delimeter'>&nbsp;</div>
+<div>
+  <form method="post" action="/proxy/index.php">
+      <input id="address_box" type="text" name="q" value="" onfocus="this.select()" /><input id="go" type="submit" value="Go" />
+      <input type="hidden" name="hl[remove_scripts]" value="checked" />
+<input type="hidden" name="hl[accept_cookies]" value="checked" />
+<input type="hidden" name="hl[show_images]" value="checked" />
+<input type="hidden" name="hl[show_referer]" value="checked" />
+<input type="hidden" name="hl[rotate13]" />
+<input type="hidden" name="hl[base64_encode]" value="checked" />
+<input type="hidden" name="hl[strip_meta]" value="checked" />
+<input type="hidden" name="hl[strip_title]" />
+<input type="hidden" name="hl[session_cookies]" value="checked" />
+
+  </form>
+
+</div>
+
+<div class='delimeter'>&nbsp;</div>
+<div>
+<a href="index.php?page=choose-connection">Добавить сервис</a>
+<br />
+<a href="index.php?page=preferences">Настройка</a>
+<br />
+#if ($isAdmin)
+<a href="admin.php">Админ</a>
+<br />
+#end
+<a href="index.php?command=logout">Выход</a>
+<br />
+</div>
