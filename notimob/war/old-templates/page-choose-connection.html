@@ -1,0 +1,16 @@
+{include file=header_small.tpl}
+<div>Выберите сайт, события в котором вы хотите получать:</div>
+
+<div>
+{foreach from=$plugins item=plugin key=pid}
+<img src="{$plugin->icon}"  align="middle">&nbsp;
+<a  href="index.php?page=add-connection&plugin={$plugin->id}">{$plugin->title}</a><br/>
+{/foreach} 
+</div>
+
+{*$navigation*}
+<div class="delimeter">&nbsp;</div>
+<div>
+<a href="index.php?page=preferences">В настройки</a><br/>
+<a href="index.php">Главная</a></div>
+{include file=footer.tpl} 

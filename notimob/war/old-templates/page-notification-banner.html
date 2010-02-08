@@ -1,0 +1,6 @@
+<div class ="header_top">
+<div class="header_title">на старте</div>
+{foreach from=$notifications key=pluginAlias item=extPlugin}
+	<img src="{$extPlugin.plugin_icon}" align="middle">{if $extPlugin.num > 0}<a href="index.php?page=list-notifications&amp;connectionId={$extPlugin.id}">{/if}({$extPlugin.num})</a>
+{/foreach}
+</div>
