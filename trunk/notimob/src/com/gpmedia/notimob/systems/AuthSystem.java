@@ -2,6 +2,8 @@ package com.gpmedia.notimob.systems;
 
 import javax.servlet.http.HttpSession;
 
+import com.gpmedia.notimob.dao.UserDAO;
+
 public class AuthSystem {
 	//hacky hacky hacky hack - but we live in single thread
 	private static HttpSession session;
@@ -15,7 +17,7 @@ public class AuthSystem {
 	}
 	
 	public static boolean authorize(String login, String password) {
-		if ("test".equals (login) && "test".equals(password)) {
+		if (UserDAO.login (login, password)) {
 			session.setAttribute("loggedIn", true);
 			return true;
 		}
