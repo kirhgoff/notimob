@@ -25,7 +25,6 @@ public class DispatcherServlet extends HttpServlet {
 	
 	private static Map<String, String> pageToTemplate = new HashMap<String, String>();
 	private VelocityEngine velocityEngine;
-	private AuthSystem authSystem;
 	
 	static {
 		pageToTemplate.put("main", "page-main.html");
@@ -59,7 +58,7 @@ public class DispatcherServlet extends HttpServlet {
 			}
 		}
 		//initialize all the systems
-		authSystem = new AuthSystem(request.getSession());
+		AuthSystem.setCurrentSesssion (request.getSession());
 		
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");

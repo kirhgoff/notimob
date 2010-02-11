@@ -3,24 +3,32 @@ package com.gpmedia.notimob.systems;
 import javax.servlet.http.HttpSession;
 
 public class AuthSystem {
+	//hacky hacky hacky hack - but we live in single thread
+	private static HttpSession session;
 
-	private final HttpSession session;
-
-	public AuthSystem (HttpSession httpSession) {
-		this.session = httpSession;
+	public static boolean isLoggedIn() {
+		//potential security whole
+		if (session == null) throw new IllegalStateException("No session saved!");
+		Object loggedIn =  session.getAttribute("loggedIn");
+		if (loggedIn == null) return false;
+		else return ((Boolean) loggedIn);
 	}
 	
-	public boolean isLoggedIn() {
-		
-		return false;
-	}
-	
-	public boolean authorize(String login, String password) {
+	public static boolean authorize(String login, String password) {
 		if ("test".equals (login) && "test".equals(password)) {
+			session.setAttribute("loggedIn", true);
 			return true;
 		}
 		else 
-			throw new RuntimeException ("Incorrect password");
+			throw new RuntimeException ("неправильный пароль");
+	}
+	
+	public static void setCurrentSesssion(HttpSession session) {
+		AuthSystem.session = session;
+	}
+
+	public static void logOff() {
+		session.setAttribute("loggedIn", false);
 	}
 
 	

@@ -35,6 +35,7 @@ public class CommandProcessor {
 	public void initCommands() {
 		// Commands which will be executed for every page
 		defaultCommands.add(new AuthorizeCommand());
+		commands.put("logout", new LogoutCommand ());
 	}
 
 	public Map<String, Object> process() {

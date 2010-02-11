@@ -7,14 +7,14 @@
 #*
 {if $notifications|@count >0 }
 {* проверка есть ли нотификации *}
-	<p>На этих сайтах у вас есть новые сообщения, <a href='index.php?page=preferences'>{$user->username}</a>:</p>
+	<p>На этих сайтах у вас есть новые сообщения, <a href='/notimob?page=preferences'>{$user->username}</a>:</p>
 	<br />
 	<div>
 	
 	{*foreach from=$notifications key=pluginAlias item=extPlugin}
 		<img src="{$extPlugin.plugin_icon}" align="middle">
 		&nbsp;
-		{if $extPlugin.num > 0}<a href="index.php?page=list-notifications&amp;connectionId={$extPlugin.id}">{/if}{$extPlugin.plugin_title} ({$extPlugin.num})</a>
+		{if $extPlugin.num > 0}<a href="/notimob?page=list-notifications&amp;connectionId={$extPlugin.id}">{/if}{$extPlugin.plugin_title} ({$extPlugin.num})</a>
 		<br />
 	{/foreach*}
 </div>
@@ -25,16 +25,16 @@
 		{* коннекции есть, сообщений нет*}
 		<p>К сожалению, вам никто не написал.</p>
 		<p>Можем предложить вам 
-		<a href="index.php?page=choose-connection">добавить сервис</a>
+		<a href="/notimob?page=choose-connection">добавить сервис</a>
 		или посмотреть <a href='#'>последние новости</a>
 		</p>
 	{else}
 		{* ничего нет*}
-		<p><a href='index.php?page=preferences'>{$user->username}</a>, 
+		<p><a href='/notimob?page=preferences'>{$user->username}</a>, 
 		у вас не добавлено ни одного соединения.
 		<br/> 
 		Чтобы получать новые сообщения, вам нужно 
-		<a href="index.php?page=choose-connection">добавить сервис</a> 
+		<a href="/notimob?page=choose-connection">добавить сервис</a> 
 		откуда вы хотите получать нотификации.</p>
 		<p><a href="#help">Помощь</a></p>
 	{/if}
@@ -42,7 +42,7 @@
 *#
 <div class='delimeter'>&nbsp;</div>
 <div>
-  <form method="post" action="/proxy/index.php">
+  <form method="post" action="/proxy//notimob">
       <input id="address_box" type="text" name="q" value="" onfocus="this.select()" /><input id="go" type="submit" value="Go" />
       <input type="hidden" name="hl[remove_scripts]" value="checked" />
 <input type="hidden" name="hl[accept_cookies]" value="checked" />
@@ -60,14 +60,14 @@
 
 <div class='delimeter'>&nbsp;</div>
 <div>
-<a href="index.php?page=choose-connection">Добавить сервис</a>
+<a href="/notimob?page=choose-connection">Добавить сервис</a>
 <br />
-<a href="index.php?page=preferences">Настройка</a>
+<a href="/notimob?page=preferences">Настройка</a>
 <br />
 #if ($isAdmin)
-<a href="admin.php">Админ</a>
+<a href="/Admin">Админ</a>
 <br />
 #end
-<a href="index.php?command=logout">Выход</a>
+<a href="/notimob?command=logout">Выход</a>
 <br />
 </div>
