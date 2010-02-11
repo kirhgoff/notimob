@@ -21,6 +21,13 @@ public class CommandProcessor {
 	private String currentPage;
 	private String initialCommand;
 
+	public void initCommands() {
+		// Commands which will be executed for every page
+		defaultCommands.add(new AuthorizeCommand());
+		commands.put("logout", new LogoutCommand ());
+		commands.put("create-user", new CreateUserCommand ());
+	}
+	
 	public CommandProcessor(ParameterSource parameters) {
 		currentPage = parameters.getParameter("page");
 		initialCommand = parameters.getParameter("command");
@@ -30,12 +37,6 @@ public class CommandProcessor {
 		this.parameters = parameters;
 
 		initCommands();
-	}
-
-	public void initCommands() {
-		// Commands which will be executed for every page
-		defaultCommands.add(new AuthorizeCommand());
-		commands.put("logout", new LogoutCommand ());
 	}
 
 	public Map<String, Object> process() {
