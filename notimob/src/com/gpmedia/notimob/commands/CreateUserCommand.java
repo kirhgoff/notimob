@@ -2,6 +2,7 @@ package com.gpmedia.notimob.commands;
 
 import java.util.Map;
 
+import com.gpmedia.notimob.ParameterSource;
 import com.gpmedia.notimob.systems.UserSystem;
 
 public class CreateUserCommand implements Command {

@@ -6,6 +6,9 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.gpmedia.notimob.CommandProcessor;
+import com.gpmedia.notimob.ParameterSource;
+
 public class AuthorizeCommandTest {
 
 	@Test

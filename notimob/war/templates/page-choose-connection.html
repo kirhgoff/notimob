@@ -1,0 +1,15 @@
+#include ("header_small.html")
+<div>Выберите сайт, события в котором вы хотите получать:</div>
+
+<div>
+#foreach ($plugin in $plugins)
+<img src="$plugin.icon"  align="middle">&nbsp;
+<a  href="/notimob?page=add-connection&plugin=$plugin.id">$plugin.title</a><br/>
+#end 
+</div>
+
+<div class="delimeter">&nbsp;</div>
+<div>
+<a href="/notimob?page=preferences">В настройки</a><br/>
+<a href="/notimob">Главная</a></div>
+#include ("footer.html")
