@@ -1,4 +1,4 @@
-package com.gpmedia.notimob.commands;
+package com.gpmedia.notimob;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,6 +6,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+
+import com.gpmedia.notimob.commands.AuthorizeCommand;
+import com.gpmedia.notimob.commands.Command;
+import com.gpmedia.notimob.commands.CreateUserCommand;
+import com.gpmedia.notimob.commands.LogoutCommand;
 
 public class CommandProcessor {
 	private static final Logger log = Logger.getLogger(CommandProcessor.class

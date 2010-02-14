@@ -1,0 +1,16 @@
+<div>Параметры pop3 соединения</div>
+<div class="form_field">Email<input type="text" name="login" id="login" width="20"/></div>
+<div class="form_field">Логин (не заполняйте, если такой же как Email)<input type="text" name="login" id="login" width="20"/> </div>
+<div class="form_field">Тип сервера<select name="EXT_mail_ServerType" id="EXT_mail_ServerType">
+<option value="POP3">pop3</option>
+<option value="IMAP">imap</option>
+<option value="POP3SSL">pop3 (с шифрованием)</option>
+<option value="IMAPSSL">imap (с шифрованием)</option>
+</select></div>
+<div class="form_field">Сервер входящей почты (напр. pop.mail.ru)<input type="text" name="EXT_mail_ServerName" id="EXT_mail_ServerName" width="20"/></div>
+<div class="form_field">Пароль<input type="text" name="password" id="password" width="20"/></div>
+<div class="form_field">Порт<input type="text" name="EXT_mail_ServerPort" id="EXT_mail_ServerPort" width="20" value="110"/></div>
+<div class="form_field">Считать новыми письма за последние (дней)<input type="text" name="EXT_mail_MessageLimitTimeInDays" id="EXT_mail_MessageLimitTimeInDays" width="20" value="3"/></div>
+<div class="form_field"><input type="submit" name="submit" id="submit" width="20" value="добавить"/>
+<input type="hidden" name="plugin_id" value="$plugin.id"/>
+</div>

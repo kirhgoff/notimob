@@ -1,0 +1,14 @@
+#include ("header_small.html")
+<h1>Настройки</h1>
+<h1>Подключения</h1>
+
+#foreach ($connection in $connections)
+<div><img src="$connection->plugin->icon}"  align="middle">$connection.plugin.title: $connection.username 
+&nbsp;<a href="/notimob?page=edit-connection&connection=$connection.id">>>></a>
+</div>
+#end
+<div>
+
+<a href="/notimob?page=choose-connection">Добавить</a></div>
+<div><br/><a href="/notimob">Главная</a></div>
+#include ("footer.html")

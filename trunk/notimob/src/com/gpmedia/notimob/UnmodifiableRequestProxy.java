@@ -1,4 +1,4 @@
-package com.gpmedia.notimob.commands;
+package com.gpmedia.notimob;
 
 import javax.servlet.http.HttpServletRequest;
 
