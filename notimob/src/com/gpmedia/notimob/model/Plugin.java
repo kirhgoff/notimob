@@ -8,7 +8,6 @@ import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Plugin {
-    @SuppressWarnings("unused")
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Long id;
@@ -68,4 +67,7 @@ public class Plugin {
 		return alias;
 	}
 
+	public Long getId() {
+		return id;
+	}
 }

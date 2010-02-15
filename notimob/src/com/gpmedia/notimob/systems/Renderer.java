@@ -1,6 +1,5 @@
 package com.gpmedia.notimob.systems;
 
-import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,6 +12,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 
 import com.gpmedia.notimob.MapBuilder;
+import com.gpmedia.notimob.Utils;
 
 public class Renderer {
 	private static Map<String, String> pageToTemplate = new HashMap<String, String>();
@@ -28,6 +28,7 @@ public class Renderer {
 		pageToTemplate.put("choose-connection", "page-choose-connection.html");
 		pageToTemplate.put("edit-connection", "page-edit-connection.html");
 		pageToTemplate.put("preferences", "page-preferences.html");
+		pageToTemplate.put("admin", "page-admin.html");		
 	}
 	
 	public static String render(Map<String, Object> values) {
@@ -39,24 +40,12 @@ public class Renderer {
 			String page = renderTemplate(templateName, values);
 			mainContent = renderTemplate("main.html", new MapBuilder().put("body", page).instance());			
 		} catch (Exception e) {
-			mainContent = printStackTrace(e);
+			mainContent = Utils.printStackTrace(e);
 		}
 		return mainContent;
 	}
 
-	public static String printStackTrace(Exception e) {
-		String mainContent;
-		StringWriter writer = new StringWriter ();
-		PrintWriter stream = new PrintWriter(writer, true);
-		e.printStackTrace(stream);
-		stream.flush();
-		writer.flush();
-		
-		mainContent = writer.toString();
-		return mainContent;
-	}
-	
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	public static String renderTemplate (String templateName, Map<String, Object> objects) throws Exception {
         VelocityContext context = new VelocityContext();
         for (Iterator iterator = objects.keySet().iterator(); iterator.hasNext();) {
