@@ -3,15 +3,13 @@ package com.gpmedia.notimob;
 import java.io.IOException;
 import java.util.Map;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.gpmedia.notimob.systems.AuthSystem;
 import com.gpmedia.notimob.systems.Renderer;
 
 @SuppressWarnings("serial")
-public class DispatcherServlet extends HttpServlet {
+public class DispatcherServlet extends NotimobServlet {
 //	private Logger log = Logger.getLogger(DispatcherServlet.class.getName());
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -28,14 +26,6 @@ public class DispatcherServlet extends HttpServlet {
 		String mainContent = Renderer.render(values);
 		
 		response.getWriter().println(mainContent);
-	}
-
-	private void setup(HttpServletRequest request, HttpServletResponse response) {
-		//initialize all the systems
-		AuthSystem.setCurrentSesssion (request.getSession());
-		Renderer.init(getServletContext());
-		response.setContentType("text/html");
-		response.setCharacterEncoding("UTF-8");
 	}
 
 }

@@ -1,0 +1,13 @@
+#include ("header_small.html")
+<h1>
+<div>
+<ul>
+<li><a href="/admin?command=checkThis">Проверить связку</a></li>
+<li><a href="/admin?command=resetData">Удалить все данные - использовать с осторожностью</a></li>
+</ul>
+</div>
+#if ($content) 
+<nobr>$content</nobr>
+#end
+<a href="/notimob">Главная</a></div>
+#include ("footer.html")

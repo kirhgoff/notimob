@@ -55,4 +55,8 @@ public class UserDAO {
         return (result != null);
 	}
 
+	public static void removeAll() {
+		UtilDAO.removeAll(User.class);
+	}
+
 }
