@@ -1,13 +1,17 @@
 #include ("header_small.html")
 <h1>
 <div>
-<ul>
-<li><a href="/admin?command=checkThis">Проверить связку</a></li>
-<li><a href="/admin?command=resetData">Удалить все данные - использовать с осторожностью</a></li>
+<ul> Меню
+<li><a href="/admin?command=checkThis">Проверка</a></li>
+<li><a href="/admin?command=resetData">Перезалить базу</a></li>
+<li><a href="/notimob">Главная</a></li>
 </ul>
 </div>
-#if ($content) 
-<nobr>$content</nobr>
+
+#if ($content)
+<div class="monospace"> 
+$content
+</div>
 #end
-<a href="/notimob">Главная</a></div>
+
 #include ("footer.html")

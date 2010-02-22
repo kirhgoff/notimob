@@ -8,4 +8,7 @@ public interface Fields {
 	public static final String NEW_PASSWORD = "newPassword";
 	public static final String NEW_LOGIN = "newLogin";
 	public static final String COMMAND = "command";
+	public static final String MAIL_SERVER_LIMIT_TIME_IN_DAYS = "mailServerLimitTimeInDays";
+	public static final String MAIL_SERVER_PORT = "mailServerPort";
+	public static final String MAIL_SERVER_HOST = "mailServerHost";
 }

@@ -68,7 +68,6 @@ public class UserDAO {
         
         User result = null;
         try {
-    		//data = (DataSet) pm.getObjectById(DataSet.class, key);
         	result = (User) query.execute(currentUser);
         } 
         finally {

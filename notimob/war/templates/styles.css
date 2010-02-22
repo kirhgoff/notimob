@@ -133,3 +133,6 @@ input {
 	margin-left: 1em;
 	margin-right: 1em;
 }
+monospace {
+	font-family: monospace;
+}

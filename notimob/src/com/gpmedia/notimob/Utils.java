@@ -14,7 +14,7 @@ public class Utils {
 		writer.flush();
 		
 		mainContent = writer.toString();
-		return  "<nowrap>" + mainContent  + "</nowrap>";
+		return  mainContent;
 	}
 
 }

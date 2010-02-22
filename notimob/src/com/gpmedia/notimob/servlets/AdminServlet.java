@@ -2,24 +2,35 @@ package com.gpmedia.notimob.servlets;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.gpmedia.notimob.ParameterSource;
 import com.gpmedia.notimob.Utils;
+import com.gpmedia.notimob.commands.Fields;
 import com.gpmedia.notimob.dao.ConnectionDAO;
 import com.gpmedia.notimob.dao.PluginDAO;
 import com.gpmedia.notimob.dao.UserDAO;
 import com.gpmedia.notimob.model.Builder;
 import com.gpmedia.notimob.model.Connection;
+import com.gpmedia.notimob.model.ConnectionDetails;
 import com.gpmedia.notimob.model.Plugin;
+import com.gpmedia.notimob.model.User;
+import com.gpmedia.notimob.systems.ConnectionSystem;
+import com.gpmedia.notimob.systems.PluginSystem;
 import com.gpmedia.notimob.systems.Renderer;
 import com.gpmedia.notimob.systems.UserSystem;
 
 @SuppressWarnings("serial")
 public class AdminServlet extends NotimobServlet {
-
+	
+	private static Logger logger = Logger.getLogger(AdminServlet.class.getName());
+	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -35,10 +46,10 @@ public class AdminServlet extends NotimobServlet {
 //			throw new RuntimeException("Go away hacky hacker");
 		
 		String result;
+		HashMap<String, Object> values = new HashMap<String, Object>();
+		values.put("page", "admin");
 
 		try {
-			HashMap<String, Object> values = new HashMap<String, Object>();
-			values.put("page", "admin");
 
 			String command = request.getParameter("command");
 			if ("checkThis".equals(command))
@@ -46,28 +57,56 @@ public class AdminServlet extends NotimobServlet {
 			if ("resetData".equals(command))
 				values.put("content", resetData());
 
-			result = Renderer.render(values);
 		} catch (Exception e) {
-			result = Utils.printStackTrace(e);
+			values.put("content", Utils.printStackTrace(e));
 		}
 
+		result = Renderer.render(values);
 		response.getWriter().write(result);
 	}
 
 	private String checkThis() {
-		createSampleData();
-
+		resetData();
+		checkConnectionDetails();
 		return "Done";
 	}
 
-	private void createSampleData() {
+	private void checkConnectionDetails() {
+		
+		final Map<String, String> parameters = new HashMap<String, String>();
+		
+		ParameterSource source = new ParameterSource() {
+			@Override
+			public String getParameter(String name) {
+				return parameters.get(name);
+			}
+		}; 
+		
+		User user = UserDAO.findByName("nicoz");
+		Plugin genericPlugin = PluginDAO.findByAlias("vkontakte");
+		Plugin mailPlugin = PluginDAO.findByAlias("mailplugin");
+		
+		ConnectionDetails details = PluginSystem.createConnectionDetails (genericPlugin, source);
+		ConnectionSystem.createConnection(user, genericPlugin, "generic", "generic_p", details);
+		
+		parameters.put(Fields.MAIL_SERVER_HOST, "mail.ru");
+		parameters.put(Fields.MAIL_SERVER_PORT, "110");
+		
+		details = PluginSystem.createConnectionDetails (mailPlugin, source);
+		ConnectionSystem.createConnection(user, mailPlugin, "mail", "mail_p", details);
+		
+		List<Connection> connections = ConnectionDAO.findConnectionsForUser(user);
+		if (connections.size() != 2) { 
+			logger.info ("there should not be " + connections.size() + " connections");
+			return;
+		}
+		
+		for (Connection connection: connections) {
+			logger.info ("connection: " + connection);
+		}
+	}
 
-		// Plugin plugin = new Plugin ();
-		// plugin.setIcon ("/img/vkontakte.gif");
-		// plugin.setLink ("http://vkontakte.ru");
-		// plugin.setTitle("Vkontakte.ru");
-		// plugin.setAlias("vkontakte");
-		// plugin = PluginDAO.store (plugin);
+	public void createSampleData() {
 
 		Plugin plugin = PluginDAO.findByAlias("vkontakte");
 
@@ -109,7 +148,7 @@ public class AdminServlet extends NotimobServlet {
 
 		UserSystem.createAdmin("kirhgoff");
 		UserSystem.createAdmin("bams");
-		UserSystem.createAdmin("nikolay");		
+		UserSystem.createAdmin("nicoz");		
 
 		return "Data has been reset succesfully";
 	}
