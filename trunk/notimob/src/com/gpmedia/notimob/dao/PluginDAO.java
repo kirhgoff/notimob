@@ -64,6 +64,11 @@ public class PluginDAO {
 		}
 		return plugins;
 	}
+
+	public static Plugin findByID(long pluginID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 
 }

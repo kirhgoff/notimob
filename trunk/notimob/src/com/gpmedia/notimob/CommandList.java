@@ -1,10 +1,9 @@
-package com.gpmedia.notimob.commands;
+package com.gpmedia.notimob;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.gpmedia.notimob.ParameterSource;
 
 public class CommandList implements Command {
 	private List<Command> commands = new ArrayList<Command>();

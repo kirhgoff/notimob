@@ -27,6 +27,9 @@ public class Connection {
 
     @Persistent
     private String password;
+
+    @Persistent    
+	private ConnectionDetails details;
     
     public void setPlugin(Plugin plugin) {
 		this.plugin = plugin;
@@ -58,6 +61,10 @@ public class Connection {
 
 	public Key getPluginKey() {
 		return pluginKey;
+	}
+
+	public void setDetails(ConnectionDetails details) {
+		this.details = details;
 	}
     
 }

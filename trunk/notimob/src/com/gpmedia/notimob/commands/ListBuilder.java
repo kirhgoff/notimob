@@ -3,6 +3,8 @@ package com.gpmedia.notimob.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gpmedia.notimob.Command;
+
 
 public class ListBuilder {
 	private List<Command> commands = new ArrayList <Command> ();

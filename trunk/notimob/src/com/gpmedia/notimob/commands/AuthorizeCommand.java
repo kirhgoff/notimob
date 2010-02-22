@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import com.gpmedia.notimob.Command;
 import com.gpmedia.notimob.ParameterSource;
 import com.gpmedia.notimob.model.User;
 import com.gpmedia.notimob.systems.AuthSystem;
@@ -29,14 +30,14 @@ public class AuthorizeCommand implements Command {
 					&& !password.equals("")) {
 				try {
 					User authorizedUser = AuthSystem.authorize(login, password);
-					values.put(ModelNames.CURRENT_USER, authorizedUser);
+					values.put(Placeholder.CURRENT_USER, authorizedUser);
 					//authorized, can go inside, if was going to some other page
 					//let him go, else correct page to forward him to main
 					if (loginOrEmpty(page)) {
 						newPage = Pages.MAIN; 
 					}
 				} catch (Exception e) {
-					values.put(ModelNames.ERROR_MESSAGE, e.getMessage());
+					values.put(Placeholder.ERROR_MESSAGE, e.getMessage());
 					newPage=Pages.LOGIN;
 				}
 			} else {
@@ -48,7 +49,7 @@ public class AuthorizeCommand implements Command {
 				}
 			}
 		} else {
-			values.put(ModelNames.CURRENT_USER, user);
+			values.put(Placeholder.CURRENT_USER, user);
 			// no need to login let him inside
 			if (loginOrEmpty(page)) {
 				newPage = Pages.MAIN; 
