@@ -1,4 +1,4 @@
-package com.gpmedia.notimob;
+package com.gpmedia.notimob.servlets;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.gpmedia.notimob.Utils;
 import com.gpmedia.notimob.dao.ConnectionDAO;
 import com.gpmedia.notimob.dao.PluginDAO;
 import com.gpmedia.notimob.dao.UserDAO;
@@ -14,7 +15,9 @@ import com.gpmedia.notimob.model.Builder;
 import com.gpmedia.notimob.model.Connection;
 import com.gpmedia.notimob.model.Plugin;
 import com.gpmedia.notimob.model.User;
+import com.gpmedia.notimob.systems.AuthSystem;
 import com.gpmedia.notimob.systems.Renderer;
+import com.gpmedia.notimob.systems.UserSystem;
 
 @SuppressWarnings("serial")
 public class AdminServlet extends NotimobServlet {
@@ -29,7 +32,10 @@ public class AdminServlet extends NotimobServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		setup(request, response);
-
+		User currentUser = AuthSystem.getCurrentUser();
+		if (currentUser == null || currentUser.isAdmin())
+			throw new RuntimeException("Go away hacky hacker");
+		
 		String result;
 
 		try {
@@ -52,12 +58,8 @@ public class AdminServlet extends NotimobServlet {
 
 	private String checkThis() {
 		createSampleData();
-		testSampleData();
 
 		return "Done";
-	}
-
-	private void testSampleData() {
 	}
 
 	private void createSampleData() {
@@ -87,6 +89,7 @@ public class AdminServlet extends NotimobServlet {
 	private String resetData() {
 		ConnectionDAO.removeAll();
 		PluginDAO.removeAll();
+		//TODO remove only admin users not to harm live people
 		UserDAO.removeAll();
 
 		Plugin plugin = new Builder<Plugin>(new Plugin()).
@@ -105,13 +108,11 @@ public class AdminServlet extends NotimobServlet {
 			editForm("page-connection-pop3.tpl").
 			instance();
 		plugin = PluginDAO.store(plugin);
-		
-		User user = new Builder<User>(new User()).
-			username ("test").
-			password ("test").
-			instance();
-		UserDAO.store (user);
-		
+
+		UserSystem.createAdmin("kirhgoff");
+		UserSystem.createAdmin("bams");
+		UserSystem.createAdmin("nikolay");		
+
 		return "Data has been reset succesfully";
 	}
 

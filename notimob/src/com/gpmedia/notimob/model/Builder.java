@@ -61,5 +61,8 @@ public class Builder<T> {
 	public T instance() {
 		return object;
 	}
+
+	public Builder<T> admin(boolean value) {
+		return assignField ("editForm", value);	}
 	
 }
