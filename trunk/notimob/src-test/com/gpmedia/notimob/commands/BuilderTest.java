@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import com.gpmedia.notimob.model.Builder;
 import com.gpmedia.notimob.model.Plugin;
+import com.gpmedia.notimob.model.User;
 
 public class BuilderTest {
 	@Test
@@ -22,5 +23,19 @@ public class BuilderTest {
 		Assert.assertEquals("http://vkontakte.ru", plugin.getLink());		
 		Assert.assertEquals("Vkontakte.ru", plugin.getTitle());		
 		Assert.assertEquals("vkontakte", plugin.getAlias());
+	}
+	
+	@Test
+	public void testUser() {
+		User user = new Builder<User>(new User()).
+		username ("name").
+		password ("password").
+		admin (true).
+		instance();
+		
+		Assert.assertNotNull (user);
+		Assert.assertEquals ("name", user.getUsername());
+		Assert.assertEquals ("password", user.getPassword());
+		Assert.assertTrue (user.isAdmin ());
 	}
 }

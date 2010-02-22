@@ -14,8 +14,6 @@ import com.gpmedia.notimob.dao.UserDAO;
 import com.gpmedia.notimob.model.Builder;
 import com.gpmedia.notimob.model.Connection;
 import com.gpmedia.notimob.model.Plugin;
-import com.gpmedia.notimob.model.User;
-import com.gpmedia.notimob.systems.AuthSystem;
 import com.gpmedia.notimob.systems.Renderer;
 import com.gpmedia.notimob.systems.UserSystem;
 
@@ -32,9 +30,9 @@ public class AdminServlet extends NotimobServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		setup(request, response);
-		User currentUser = AuthSystem.getCurrentUser();
-		if (currentUser == null || currentUser.isAdmin())
-			throw new RuntimeException("Go away hacky hacker");
+//		User currentUser = AuthSystem.getCurrentUser();
+//		if (currentUser == null || currentUser.isAdmin())
+//			throw new RuntimeException("Go away hacky hacker");
 		
 		String result;
 
@@ -105,7 +103,7 @@ public class AdminServlet extends NotimobServlet {
 			link("pop3").
 			title("Эл. почта по POP3").
 			alias("mailplugin").
-			editForm("page-connection-pop3.tpl").
+			editForm("page-connection-pop3.html").
 			instance();
 		plugin = PluginDAO.store(plugin);
 
