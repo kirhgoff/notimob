@@ -9,7 +9,6 @@ public class AuthSystem {
 	//hacky hacky hacky hack - but we live in single thread
 	private static HttpSession session;
 
-	//TODO
 	public static User getCurrentUser() {
 		//potential security whole
 		if (session == null) throw new IllegalStateException("No session saved!");
@@ -18,7 +17,6 @@ public class AuthSystem {
 		return user;
 	}
 	
-	//TODO 
 	public static User authorize(String login, String password) {
 		User user = UserDAO.login (login, password);
 		if (user != null) {

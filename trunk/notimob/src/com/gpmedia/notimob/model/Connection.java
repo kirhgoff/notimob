@@ -20,7 +20,13 @@ public class Connection {
     private Key pluginKey;
     
     @NotPersistent
-    private Plugin plugin; //will be assigned by DAO
+    private Plugin plugin;
+
+    @Persistent
+    private Key userKey;
+    
+    @NotPersistent
+    private User user; 
     
     @Persistent
     private String username;
@@ -65,6 +71,26 @@ public class Connection {
 
 	public void setDetails(ConnectionDetails details) {
 		this.details = details;
+	}
+	
+	public ConnectionDetails getDetails() {
+		return details;
+	}
+
+	public void setUserKey(Key userKey) {
+		this.userKey = userKey;
+	}
+
+	public Key getUserKey() {
+		return userKey;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public User getUser() {
+		return user;
 	}
     
 }
