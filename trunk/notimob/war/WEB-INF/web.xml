@@ -6,11 +6,11 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	<servlet>
 		<servlet-name>NotimobDispatcher</servlet-name>
-		<servlet-class>com.gpmedia.notimob.DispatcherServlet</servlet-class>
+		<servlet-class>com.gpmedia.notimob.servlets.DispatcherServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>AdminServlet</servlet-name>
-		<servlet-class>com.gpmedia.notimob.AdminServlet</servlet-class>
+		<servlet-class>com.gpmedia.notimob.servlets.AdminServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>NotimobDispatcher</servlet-name>

@@ -64,7 +64,7 @@
 <br />
 <a href="/notimob?page=preferences">Настройка</a>
 <br />
-#if ($isAdmin)
+#if ($currentUser.admin)
 <a href="/Admin">Админ</a>
 <br />
 #end

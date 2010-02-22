@@ -18,6 +18,9 @@ public class User {
 
     @Persistent
     private String password;
+
+    @Persistent
+    private boolean isAdmin;
     
     @Persistent
     private String email;
@@ -44,6 +47,10 @@ public class User {
 
 	public String getEmail() {
 		return email;
+	}
+
+	public boolean isAdmin() {
+		return isAdmin;
 	}
     
 }

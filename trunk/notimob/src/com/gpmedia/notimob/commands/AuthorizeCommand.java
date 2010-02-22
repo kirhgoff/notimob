@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.gpmedia.notimob.ParameterSource;
+import com.gpmedia.notimob.model.User;
 import com.gpmedia.notimob.systems.AuthSystem;
 
 public class AuthorizeCommand implements Command {
@@ -18,6 +19,7 @@ public class AuthorizeCommand implements Command {
 	private static final String MAIN = "main";
 	private static final String MAIN_UNLOGGED = "main-unlogged";
 	private static final String REGISTRATION = "registration";
+	private static final String CURRENT_USER = "currentUser";
 	
 	private static final List<String> allowedPages = Arrays.asList(new String [] { 
 		REGISTRATION, MAIN_UNLOGGED,  
@@ -28,7 +30,8 @@ public class AuthorizeCommand implements Command {
 		String page = (String) values.get(PAGE);
 		String newPage = page;
 		
-		if (!AuthSystem.isLoggedIn()) {
+		User user = AuthSystem.getCurrentUser();
+		if (user == null) {
 			String login = parameters.getParameter(LOGIN);
 			String password = parameters.getParameter(PASSWORD);
 			
@@ -36,7 +39,8 @@ public class AuthorizeCommand implements Command {
 			if (login != null && !login.equals("") && password != null
 					&& !password.equals("")) {
 				try {
-					AuthSystem.authorize(login, password);
+					User authorizedUser = AuthSystem.authorize(login, password);
+					values.put(CURRENT_USER, authorizedUser);
 					//authorized, can go inside, if was going to some other page
 					//let him go, else correct page to forward him to main
 					if (loginOrEmpty(page)) {
@@ -55,6 +59,7 @@ public class AuthorizeCommand implements Command {
 				}
 			}
 		} else {
+			values.put(CURRENT_USER, user);
 			// no need to login let him inside
 			if (loginOrEmpty(page)) {
 				newPage = MAIN; 

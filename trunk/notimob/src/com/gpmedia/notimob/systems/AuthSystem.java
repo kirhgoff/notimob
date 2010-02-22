@@ -3,26 +3,30 @@ package com.gpmedia.notimob.systems;
 import javax.servlet.http.HttpSession;
 
 import com.gpmedia.notimob.dao.UserDAO;
+import com.gpmedia.notimob.model.User;
 
 public class AuthSystem {
 	//hacky hacky hacky hack - but we live in single thread
 	private static HttpSession session;
 
-	public static boolean isLoggedIn() {
+	//TODO
+	public static User getCurrentUser() {
 		//potential security whole
 		if (session == null) throw new IllegalStateException("No session saved!");
-		Object loggedIn =  session.getAttribute("loggedIn");
-		if (loggedIn == null) return false;
-		else return ((Boolean) loggedIn);
+		String currentUser =  (String) session.getAttribute("currentUser");
+		User user = UserDAO.findByName (currentUser);
+		return user;
 	}
 	
-	public static boolean authorize(String login, String password) {
-		if (UserDAO.login (login, password)) {
-			session.setAttribute("loggedIn", true);
-			return true;
+	//TODO 
+	public static User authorize(String login, String password) {
+		User user = UserDAO.login (login, password);
+		if (user != null) {
+			session.setAttribute("currentUser", login);
+			return user;
 		}
 		else 
-			throw new RuntimeException ("неправильный пароль");
+			throw new RuntimeException ("неправильный логин/пароль");
 	}
 	
 	public static void setCurrentSesssion(HttpSession session) {
@@ -30,7 +34,7 @@ public class AuthSystem {
 	}
 
 	public static void logOff() {
-		session.setAttribute("loggedIn", false);
+		session.setAttribute("currentUser", null);
 	}
 
 	

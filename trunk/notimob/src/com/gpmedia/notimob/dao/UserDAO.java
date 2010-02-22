@@ -36,10 +36,10 @@ public class UserDAO {
         return (existent != null);
 	}
 
-	public static boolean login(String username, String password) {
+	public static User login(String username, String password) {
         PersistenceManager pm = PMF.get().getPersistenceManager();
         Query query = pm.newQuery(User.class);
-        query.setUnique(true);
+        query.setUnique(true); //if exception happens we have faulty logic somewhere
         query.setFilter("username == usernameParam && password == passwordParam");
         query.declareParameters("String usernameParam, String passwordParam");
         
@@ -52,11 +52,29 @@ public class UserDAO {
             pm.close();
         }
         
-        return (result != null);
+        return result;
 	}
 
 	public static void removeAll() {
 		UtilDAO.removeAll(User.class);
 	}
 
+	public static User findByName(String currentUser) {
+        PersistenceManager pm = PMF.get().getPersistenceManager();
+        Query query = pm.newQuery(User.class);
+        query.setUnique(true); //if exception happens we have faulty logic somewhere
+        query.setFilter("username == usernameParam");
+        query.declareParameters("String usernameParam");
+        
+        User result = null;
+        try {
+    		//data = (DataSet) pm.getObjectById(DataSet.class, key);
+        	result = (User) query.execute(currentUser);
+        } 
+        finally {
+            pm.close();
+        }
+        
+        return result;
+	}
 }
