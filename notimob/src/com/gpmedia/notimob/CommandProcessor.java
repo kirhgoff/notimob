@@ -7,22 +7,28 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import com.gpmedia.notimob.commands.AddConnectionCommand;
 import com.gpmedia.notimob.commands.AuthorizeCommand;
 import com.gpmedia.notimob.commands.Command;
+import com.gpmedia.notimob.commands.CommandList;
 import com.gpmedia.notimob.commands.CreateUserCommand;
+import com.gpmedia.notimob.commands.DeleteConnectionCommand;
+import com.gpmedia.notimob.commands.Fields;
+import com.gpmedia.notimob.commands.GetConnectionsForCurrentUserCommand;
 import com.gpmedia.notimob.commands.GetPluginListCommand;
-import com.gpmedia.notimob.commands.ListBuilder;
+import com.gpmedia.notimob.commands.LoadConnectionDetailsCommand;
+import com.gpmedia.notimob.commands.LoadPluginDetailsCommand;
 import com.gpmedia.notimob.commands.LogoutCommand;
+import com.gpmedia.notimob.commands.Pages;
+import com.gpmedia.notimob.commands.UpdateConnectionCommand;
 
 public class CommandProcessor {
 	private static final Logger log = Logger.getLogger(CommandProcessor.class
 			.getName());
-	public static final String PAGE = "page";
-	public static final String COMMAND = "command";
 
 	private Map<String, Command> commands = new HashMap<String, Command>();
 	private List<Command> defaultCommands = new ArrayList<Command>();
-	private Map<String, List<Command>> pageDefaultCommands = new HashMap<String, List<Command>>();	
+	private Map<String, Command> pageDefaultCommands = new HashMap<String, Command>();	
 
 	private final ParameterSource parameters;
 	private String currentPage;
@@ -33,17 +39,29 @@ public class CommandProcessor {
 		defaultCommands.add(new AuthorizeCommand());
 		//defaultCommands.add(new SetCurrentUserCommand());
 		
-		pageDefaultCommands.put("choose-connection", new ListBuilder ()
-			.add (new GetPluginListCommand ()).list ());
+		//----------------------------------------------------
+		pageDefaultCommands.put(Pages.CHOOSE_CONNECTION, new GetPluginListCommand ());
+		pageDefaultCommands.put(Pages.ADD_CONNECTION, new LoadPluginDetailsCommand ());		
+		pageDefaultCommands.put(Pages.EDIT_CONNECTION, new LoadConnectionDetailsCommand ());
+		pageDefaultCommands.put(Pages.PREFERENCES, new GetConnectionsForCurrentUserCommand ());		
 		
-		commands.put("logout", new LogoutCommand ());
-		commands.put("create-user", new CreateUserCommand ());
+		CommandList mainCommands = new CommandList ();
+		mainCommands.add(new GetConnectionsForCurrentUserCommand ());
+		//could be more
+		pageDefaultCommands.put(Pages.MAIN, mainCommands);
+		
+		//-------------------------------------------------------
+		commands.put(Commands.LOGOUT, new LogoutCommand ());
+		commands.put(Commands.DELETE_CONNECTION, new DeleteConnectionCommand ());
+		commands.put(Commands.UPDATE_CONNECTION, new UpdateConnectionCommand ());
+		commands.put(Commands.ADD_CONNECTION, new AddConnectionCommand ());
+		commands.put(Commands.CREATE_USER, new CreateUserCommand ());
 		
 	}
 	
 	public CommandProcessor(ParameterSource parameters) {
-		currentPage = parameters.getParameter("page");
-		initialCommand = parameters.getParameter("command");
+		currentPage = parameters.getParameter(Fields.PAGE);
+		initialCommand = parameters.getParameter(Fields.COMMAND);
 
 		log.info("processing the request: page=" + getCurrentPage()
 				+ ", command=" + initialCommand);
@@ -55,7 +73,7 @@ public class CommandProcessor {
 	public Map<String, Object> process() {
 		Map<String, Object> values = new HashMap<String, Object>();
 		//enrich parameters - still not clear what to use - request or values
-		values.put("page", getCurrentPage());
+		values.put(Fields.PAGE, getCurrentPage());
 		
 		invokeDefaultCommands(values);
 		invokePageDefaultCommands(values);
@@ -81,10 +99,9 @@ public class CommandProcessor {
 	private void invokePageDefaultCommands(Map<String, Object> values) {
 		// invoke chain of page default commands
 		// use composite here
-		List<Command> commandsForPage = pageDefaultCommands.get(getCurrentPage());
-		if (commands != null) {
-			for (Command command: commandsForPage) 
-				command.invoke(values, parameters);
+		Command commandsForPage = pageDefaultCommands.get(getCurrentPage());
+		if (commandsForPage != null) { //it could happen that some page dont have default commands
+				commandsForPage.invoke(values, parameters);
 		}
 	}
 

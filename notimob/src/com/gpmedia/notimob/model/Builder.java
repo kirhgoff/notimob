@@ -58,11 +58,12 @@ public class Builder<T> {
 		return assignField ("editForm", value);
 	}
 
+	public Builder<T> admin(boolean value) {
+		return assignField ("admin", value);	
+	}
+	
 	public T instance() {
 		return object;
 	}
 
-	public Builder<T> admin(boolean value) {
-		return assignField ("editForm", value);	}
-	
 }

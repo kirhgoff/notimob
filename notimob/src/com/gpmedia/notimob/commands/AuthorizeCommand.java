@@ -9,66 +9,55 @@ import com.gpmedia.notimob.model.User;
 import com.gpmedia.notimob.systems.AuthSystem;
 
 public class AuthorizeCommand implements Command {
-	//value names
-	private static final String ERROR_MESSAGE = "errorMessage";
-	private static final String PAGE = "page";
-	private static final String PASSWORD = "password";
-	//TODO change login to username for value names
-	//page names
-	private static final String LOGIN = "login";
-	private static final String MAIN = "main";
-	private static final String MAIN_UNLOGGED = "main-unlogged";
-	private static final String REGISTRATION = "registration";
-	private static final String CURRENT_USER = "currentUser";
 	
 	private static final List<String> allowedPages = Arrays.asList(new String [] { 
-		REGISTRATION, MAIN_UNLOGGED,  
+		Pages.REGISTRATION, Pages.MAIN_UNLOGGED,  
 	});
 
 	@Override
 	public void invoke(Map<String, Object> values, ParameterSource parameters) {
-		String page = (String) values.get(PAGE);
+		String page = (String) values.get(Fields.PAGE);
 		String newPage = page;
 		
 		User user = AuthSystem.getCurrentUser();
 		if (user == null) {
-			String login = parameters.getParameter(LOGIN);
-			String password = parameters.getParameter(PASSWORD);
+			String login = parameters.getParameter(Fields.USERNAME);
+			String password = parameters.getParameter(Fields.PASSWORD);
 			
 			// user is not authorized and provided his credentials
 			if (login != null && !login.equals("") && password != null
 					&& !password.equals("")) {
 				try {
 					User authorizedUser = AuthSystem.authorize(login, password);
-					values.put(CURRENT_USER, authorizedUser);
+					values.put(ModelNames.CURRENT_USER, authorizedUser);
 					//authorized, can go inside, if was going to some other page
 					//let him go, else correct page to forward him to main
 					if (loginOrEmpty(page)) {
-						newPage = MAIN; 
+						newPage = Pages.MAIN; 
 					}
 				} catch (Exception e) {
-					values.put(ERROR_MESSAGE, e.getMessage());
-					newPage=LOGIN;
+					values.put(ModelNames.ERROR_MESSAGE, e.getMessage());
+					newPage=Pages.LOGIN;
 				}
 			} else {
 				//not logged in - can see only main for not logged
-				if (page == null || page.equals("") || page.equals(MAIN))
-					newPage = MAIN_UNLOGGED;
+				if (page == null || page.equals("") || page.equals(Pages.MAIN))
+					newPage = Pages.MAIN_UNLOGGED;
 				else if (!allowedPages.contains(page)) {
-					newPage=LOGIN; //if he tries to get somewhere - ask to login
+					newPage=Pages.LOGIN; //if he tries to get somewhere - ask to login
 				}
 			}
 		} else {
-			values.put(CURRENT_USER, user);
+			values.put(ModelNames.CURRENT_USER, user);
 			// no need to login let him inside
 			if (loginOrEmpty(page)) {
-				newPage = MAIN; 
+				newPage = Pages.MAIN; 
 			}
 		}
-		values.put(PAGE, newPage);
+		values.put(Fields.PAGE, newPage);
 	}
 
 	private boolean loginOrEmpty(String page) {
-		return page == null || page.equals (LOGIN) || page.equals ("");
+		return page == null || page.equals (Pages.LOGIN) || page.equals ("");
 	}
 }
