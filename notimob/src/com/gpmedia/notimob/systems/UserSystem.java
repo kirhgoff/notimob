@@ -10,6 +10,7 @@ public class UserSystem {
 		User user = new User ();
 		user.setUsername(username);
 		user.setPassword(password);
+		user.setAdmin(false);		
 		user.setEmail(email);
 		
 		if (UserDAO.exists (username)) {
