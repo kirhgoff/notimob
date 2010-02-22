@@ -9,8 +9,6 @@ import java.util.logging.Logger;
 
 import com.gpmedia.notimob.commands.AddConnectionCommand;
 import com.gpmedia.notimob.commands.AuthorizeCommand;
-import com.gpmedia.notimob.commands.Command;
-import com.gpmedia.notimob.commands.CommandList;
 import com.gpmedia.notimob.commands.CreateUserCommand;
 import com.gpmedia.notimob.commands.DeleteConnectionCommand;
 import com.gpmedia.notimob.commands.Fields;

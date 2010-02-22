@@ -6,6 +6,8 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.gpmedia.notimob.Command;
+import com.gpmedia.notimob.CommandList;
 import com.gpmedia.notimob.ParameterSource;
 
 public class ListCommandTest {

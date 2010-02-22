@@ -2,6 +2,7 @@ package com.gpmedia.notimob.commands;
 
 import java.util.Map;
 
+import com.gpmedia.notimob.Command;
 import com.gpmedia.notimob.ParameterSource;
 import com.gpmedia.notimob.systems.UserSystem;
 
@@ -18,7 +19,7 @@ public class CreateUserCommand implements Command {
 		}
 		catch (Exception e) {
 			values.put(Fields.PAGE, Pages.REGISTRATION);
-			values.put(ModelNames.ERROR_MESSAGE, e.getMessage());
+			values.put(Placeholder.ERROR_MESSAGE, e.getMessage());
 		}
 	}
 
