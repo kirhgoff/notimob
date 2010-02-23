@@ -1,9 +1,8 @@
-#include ("header_small")
+#include ("header_small.html")
 
 <form method="POST" action="/notimob">
 <input id="command" name="command" type="hidden" value="update-connection"/>
 <input id="page" name="page" type="hidden" value="preferences"/>
-<input id="plugin_id" name="plugin_id" type="hidden" value="$connection.plugin.id}"/>
 <input id="connection_id" name="connection_id" type="hidden" value="$connection.id"/>
 
 <h1>Редактировать подключение</h1>
@@ -12,13 +11,16 @@
 <b><img src="$connection.plugin.icon"  align="middle"> $connection.plugin.title</b>
 </div>
 <div class="form_field">имя<br/> 
-<input type="text" name="login" id="login" width="20" value="$connection.username"/></div>
+<input type="text" name="username" id="username" width="20" value="$connection.username"/></div>
 <div class="form_field">пароль<br/>
 <input type="text" name="password" id="password" width="20" value="$connection.password"/></div>
 <div><input type="submit" name="submit" id="submit" width="20" value="обновить"/> </div>
+
+## TODO add custom form
+
 </form>
 
-<a href="/notimob?page=main&page=preferences&command=delete-connection&connection=$connection.id">
+<a href="/notimob?page=main&page=preferences&command=delete-connection&connection_id=$connection.id">
 Удалить</a> 
 <div class='delimeter'>&nbsp;</div><a href="/notimob?page=preferences">
 В настройки</a>

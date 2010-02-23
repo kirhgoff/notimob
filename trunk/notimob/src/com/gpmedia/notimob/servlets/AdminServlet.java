@@ -82,7 +82,7 @@ public class AdminServlet extends NotimobServlet {
 			}
 		}; 
 		
-		User user = UserDAO.findByName("nicoz");
+		User user = UserDAO.findByName("kirhgoff");
 		Plugin genericPlugin = PluginDAO.findByAlias("vkontakte");
 		Plugin mailPlugin = PluginDAO.findByAlias("mailplugin");
 		
@@ -95,12 +95,12 @@ public class AdminServlet extends NotimobServlet {
 		details = PluginSystem.createConnectionDetails (mailPlugin, source);
 		ConnectionSystem.createConnection(user, mailPlugin, "mail", "mail_p", details);
 		
-		List<Connection> connections = ConnectionDAO.findConnectionsForUser(user);
+		List<Connection> connections = ConnectionDAO.findConnectionsForUser(user); 
 
 		if (connections.size() == 0) throw new AssertionError("Size should not be null");
-		logger.info ("there should not be " + connections.size() + " connections");
+		System.out.println ("there should not be " + connections.size() + " connections");
 		for (Connection connection: connections) {
-			logger.info ("connection: " + connection);
+			System.out.println ("connection: " + connection);
 		}
 	}
 

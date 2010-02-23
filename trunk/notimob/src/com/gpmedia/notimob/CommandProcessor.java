@@ -40,7 +40,7 @@ public class CommandProcessor {
 		//----------------------------------------------------
 		pageDefaultCommands.put(Pages.CHOOSE_CONNECTION, new GetPluginListCommand ());
 		pageDefaultCommands.put(Pages.ADD_CONNECTION, new LoadPluginDetailsCommand ());		
-		pageDefaultCommands.put(Pages.EDIT_CONNECTION, new LoadConnectionDetailsCommand ());
+		pageDefaultCommands.put(Pages.EDIT_CONNECTION, new LoadConnectionDetailsCommand ()); //TODO
 		pageDefaultCommands.put(Pages.PREFERENCES, new GetConnectionsForCurrentUserCommand ());		
 		
 		CommandList mainCommands = new CommandList ();
@@ -50,9 +50,9 @@ public class CommandProcessor {
 		
 		//-------------------------------------------------------
 		commands.put(Commands.LOGOUT, new LogoutCommand ());
-		commands.put(Commands.DELETE_CONNECTION, new DeleteConnectionCommand ());
-		commands.put(Commands.UPDATE_CONNECTION, new UpdateConnectionCommand ());
-		commands.put(Commands.ADD_CONNECTION, new AddConnectionCommand ());
+		commands.put(Commands.DELETE_CONNECTION, new DeleteConnectionCommand ());  //TODO
+		commands.put(Commands.UPDATE_CONNECTION, new UpdateConnectionCommand ()); //TODO
+		commands.put(Commands.ADD_CONNECTION, new AddConnectionCommand ()); 
 		commands.put(Commands.CREATE_USER, new CreateUserCommand ());
 		
 	}
@@ -61,7 +61,7 @@ public class CommandProcessor {
 		currentPage = parameters.getParameter(Fields.PAGE);
 		initialCommand = parameters.getParameter(Fields.COMMAND);
 
-		log.info("processing the request: page=" + getCurrentPage()
+		log.info("processing the request: page=" + currentPage
 				+ ", command=" + initialCommand);
 		this.parameters = parameters;
 
@@ -71,7 +71,7 @@ public class CommandProcessor {
 	public Map<String, Object> process() {
 		Map<String, Object> values = new HashMap<String, Object>();
 		//enrich parameters - still not clear what to use - request or values
-		values.put(Fields.PAGE, getCurrentPage());
+		values.put(Fields.PAGE, currentPage);
 		
 		invokeDefaultCommands(values);
 		invokePageDefaultCommands(values);
@@ -97,7 +97,7 @@ public class CommandProcessor {
 	private void invokePageDefaultCommands(Map<String, Object> values) {
 		// invoke chain of page default commands
 		// use composite here
-		Command commandsForPage = pageDefaultCommands.get(getCurrentPage());
+		Command commandsForPage = pageDefaultCommands.get(values.get(Fields.PAGE));
 		if (commandsForPage != null) { //it could happen that some page dont have default commands
 				commandsForPage.invoke(values, parameters);
 		}
@@ -114,10 +114,6 @@ public class CommandProcessor {
 
 	public void setCurrentPage(String currentPage) {
 		this.currentPage = currentPage;
-	}
-
-	public String getCurrentPage() {
-		return currentPage;
 	}
 
 	public String getInitialCommand() {

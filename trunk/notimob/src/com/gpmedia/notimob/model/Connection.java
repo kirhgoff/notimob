@@ -11,7 +11,6 @@ import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Connection {
-    @SuppressWarnings("unused")
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Long id;
@@ -92,5 +91,18 @@ public class Connection {
 	public User getUser() {
 		return user;
 	}
-    
+
+	@Override
+	public String toString() {
+		return "Connection {key:" + getId() + ", username:" + getUsername() + ", user: " +  user + ", plugin: " + plugin + "}"; 
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getId() {
+		return id;
+	}
+	
 }

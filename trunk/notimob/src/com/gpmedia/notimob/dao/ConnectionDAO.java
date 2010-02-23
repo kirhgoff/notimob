@@ -1,6 +1,7 @@
 package com.gpmedia.notimob.dao;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
@@ -36,36 +37,59 @@ public class ConnectionDAO {
 
 
 	@SuppressWarnings("unchecked")
-	private List<Connection> find(User user) {
+	public static List<Connection> findConnectionsForUser(User user) {
+		//TODO details are empty
         PersistenceManager pm = PMF.get().getPersistenceManager();
-        Query query = pm.newQuery(Plugin.class);
-        query.setUnique(true);
+        Query query = pm.newQuery(Connection.class);
         query.setFilter("userKey == userKeyParam");
-        query.declareParameters("Key userKeyParam");
+        query.declareParameters(Key.class.getName() + " userKeyParam");
         
-    	List<Connection> connections;        
+    	List<Connection> connections = new ArrayList<Connection> ();        
     	try {
-        	connections = (List<Connection>) query.execute(user.getKey());
+    		List<Connection> data = (List<Connection>) query.execute(user.getKey());
+        	for (Iterator iterator = data.iterator(); iterator.hasNext();) {
+				Connection connection = (Connection) iterator.next();
+				connections.add (connection);
+				connection.setPlugin((Plugin) pm.getObjectById(Plugin.class, connection.getPluginKey()));
+				connection.setUser(user);
+			}
         } 
         finally {
             pm.close();
         }
         return connections;
 	}
-	
-	@SuppressWarnings("unchecked")
-	public static List<Connection> findConnectionsForUser(User user) {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		String queryStr = "select from " + Connection.class.getName() + 
-			" where userKey == :userKeyParam";
-		List<Connection> connections = new ArrayList<Connection> ();
-		try {
-			connections = (List<Connection>) pm.newQuery(queryStr).execute(user.getKey ());
-		}
-		finally {
-			pm.close ();
-		}
-		return connections;
+
+	public static Connection getByID(long id) {
+        PersistenceManager pm = PMF.get().getPersistenceManager();
+        Connection connection = new Connection ();
+    	try {
+    		Key key = KeyFactory.createKey(Connection.class.getName(), id);
+    		connection = pm.getObjectById(Connection.class, key);
+			connection.setPlugin((Plugin) pm.getObjectById(Plugin.class, connection.getPluginKey()));
+			connection.setUser((User) pm.getObjectById(User.class, connection.getUserKey()));
+        } 
+        finally {
+            pm.close();
+        }
+        return connection;
 	}
-	
+
+	public static void update(Connection connection) {
+		//actually its more efficient to get object and update its fields,
+		// then to close pm and everything will be saved
+		//but fuck the efficiency
+		store (connection);
+	}
+
+	public static void removeByID(long id) {
+        PersistenceManager pm = PMF.get().getPersistenceManager();
+    	try {
+    		Key key = KeyFactory.createKey(Connection.class.getName(), id);
+    		pm.deletePersistent(key);
+        } 
+        finally {
+            pm.close();
+        }
+	}	
 }
