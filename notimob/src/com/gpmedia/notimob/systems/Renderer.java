@@ -47,6 +47,10 @@ public class Renderer {
 
 	@SuppressWarnings("unchecked")
 	public static String renderTemplate (String templateName, Map<String, Object> objects) throws Exception {
+		if (!templateName.equals("main.html")) {
+			System.out.println("----------------------------------------------------------------------");
+			System.out.println("Render: " + templateName + " context is: " + objects);
+		}
         VelocityContext context = new VelocityContext();
         for (Iterator iterator = objects.keySet().iterator(); iterator.hasNext();) {
 			String key = (String) iterator.next();

@@ -72,4 +72,9 @@ public class Plugin {
 	public Key getKey() {
 		return key;
 	}
+	
+	@Override
+	public String toString() {
+		return "Plugin {key:" + key + ", alias:" + alias + "}"; 
+	}
 }

@@ -6,7 +6,7 @@ import com.gpmedia.notimob.Command;
 import com.gpmedia.notimob.ParameterSource;
 import com.gpmedia.notimob.systems.UserSystem;
 
-public class CreateUserCommand implements Command {
+public class CreateUserCommand extends CommandBase implements Command {
 
 	@Override
 	public void invoke(Map<String, Object> values, ParameterSource parameters) {
@@ -18,8 +18,7 @@ public class CreateUserCommand implements Command {
 			UserSystem.createUser (login, password, email);
 		}
 		catch (Exception e) {
-			values.put(Fields.PAGE, Pages.REGISTRATION);
-			values.put(Placeholder.ERROR_MESSAGE, e.getMessage());
+			forwardToPage(values, Pages.REGISTRATION, e.getMessage());
 		}
 	}
 

@@ -66,4 +66,9 @@ public class User {
 		return key;
 	}
 	
+	@Override
+	public String toString() {
+		return "User {key:" + getKey () + ", username:" + getUsername() + (isAdmin () ? ", admin" : "") + "}"; 
+	}
+	
 }

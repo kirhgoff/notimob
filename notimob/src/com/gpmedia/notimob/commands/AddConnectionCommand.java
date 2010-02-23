@@ -28,6 +28,8 @@ public class AddConnectionCommand implements Command {
 		
 		ConnectionDetails details = PluginSystem.createConnectionDetails (plugin, parameters);
 		ConnectionSystem.createConnection(user, plugin, username, password, details);
+		//TODO reload - we changed everything - this is hack, think how to remove it
+		new GetConnectionsForCurrentUserCommand ().invoke(values, parameters);
 	}
 
 }

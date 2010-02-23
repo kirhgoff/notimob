@@ -6,4 +6,5 @@ public interface Placeholder {
 	public static final String ERROR_MESSAGE = "errorMessage";
 	public static final String PLUGIN = "plugin";
 	public static final String CONNECTIONS = "connections";
+	public static final String CONNECTION = "connection";
 }
