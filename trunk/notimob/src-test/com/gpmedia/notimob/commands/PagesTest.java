@@ -1,8 +1,5 @@
 package com.gpmedia.notimob.commands;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +15,6 @@ import com.gpmedia.notimob.ParameterSource;
 import com.gpmedia.notimob.dao.UserDAO;
 import com.gpmedia.notimob.model.Builder;
 import com.gpmedia.notimob.model.User;
-import com.gpmedia.notimob.systems.AuthSystem;
 
 public class PagesTest {
 
@@ -39,7 +35,7 @@ public class PagesTest {
         //helper.tearDown();
     }
 
-	
+	@Ignore
     @Test
 	public void testLogin() throws Exception {
 		String username = "test123";

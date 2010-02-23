@@ -1,7 +1,15 @@
 #include ("header_big.html")
 
 #if ($errorMessage && $errorMessage != "")
-	<div class="error">Ошибка: {$errorMessage}</div>
+	<div class="error">Ошибка: $errorMessage</div>
+#end
+
+connections:
+#foreach ($connection in $connections)
+		<img src="$connection.plugin.icon" align="middle"/>
+		&nbsp;
+		$connection.username
+		<br />
 #end
 
 #*

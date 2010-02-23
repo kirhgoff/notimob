@@ -8,7 +8,8 @@ import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Pair {
-    @PrimaryKey
+    @SuppressWarnings("unused")
+	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Long id;
 
@@ -44,6 +45,11 @@ public class Pair {
 	@Override
 	public int hashCode() {
 		return mapKey.hashCode()  + 7 * value.hashCode();
+	}
+	
+	@Override
+	public String toString() {
+		return mapKey + ":" + value;
 	}
 
 }

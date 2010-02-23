@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 
+import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.gpmedia.notimob.model.Connection;
 import com.gpmedia.notimob.model.Plugin;
@@ -16,8 +18,8 @@ public class ConnectionDAO {
 	public static Connection store(Connection connection) {
 		//connection.setPlugin(KeyFactory.createKey(Plugin.class.getSimpleName(), plugin.getId ()));
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		connection.setPluginKey(KeyFactory.createKey(Plugin.class.getSimpleName(), connection.getPlugin().getId ()));
-		connection.setUserKey(KeyFactory.createKey(User.class.getSimpleName(), connection.getUser().getId ()));
+		connection.setPluginKey(connection.getPlugin().getKey ());
+		connection.setUserKey(connection.getUser().getKey ());
 		try {
 			connection = pm.makePersistent(connection);
 		}
@@ -32,6 +34,25 @@ public class ConnectionDAO {
 		UtilDAO.removeAll(Connection.class);
 	}
 
+
+	@SuppressWarnings("unchecked")
+	private List<Connection> find(User user) {
+        PersistenceManager pm = PMF.get().getPersistenceManager();
+        Query query = pm.newQuery(Plugin.class);
+        query.setUnique(true);
+        query.setFilter("userKey == userKeyParam");
+        query.declareParameters("Key userKeyParam");
+        
+    	List<Connection> connections;        
+    	try {
+        	connections = (List<Connection>) query.execute(user.getKey());
+        } 
+        finally {
+            pm.close();
+        }
+        return connections;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public static List<Connection> findConnectionsForUser(User user) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -39,7 +60,7 @@ public class ConnectionDAO {
 			" where userKey == :userKeyParam";
 		List<Connection> connections = new ArrayList<Connection> ();
 		try {
-			connections = (List<Connection>) pm.newQuery(queryStr).execute(KeyFactory.createKeyString(User.class.getName(), user.getId()));
+			connections = (List<Connection>) pm.newQuery(queryStr).execute(user.getKey ());
 		}
 		finally {
 			pm.close ();

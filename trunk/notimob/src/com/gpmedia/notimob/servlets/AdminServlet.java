@@ -96,11 +96,9 @@ public class AdminServlet extends NotimobServlet {
 		ConnectionSystem.createConnection(user, mailPlugin, "mail", "mail_p", details);
 		
 		List<Connection> connections = ConnectionDAO.findConnectionsForUser(user);
-		if (connections.size() != 2) { 
-			logger.info ("there should not be " + connections.size() + " connections");
-			return;
-		}
-		
+
+		if (connections.size() == 0) throw new AssertionError("Size should not be null");
+		logger.info ("there should not be " + connections.size() + " connections");
 		for (Connection connection: connections) {
 			logger.info ("connection: " + connection);
 		}
