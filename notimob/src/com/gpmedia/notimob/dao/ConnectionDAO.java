@@ -64,8 +64,7 @@ public class ConnectionDAO {
         PersistenceManager pm = PMF.get().getPersistenceManager();
         Connection connection = new Connection ();
     	try {
-    		Key key = KeyFactory.createKey(Connection.class.getName(), id);
-    		connection = pm.getObjectById(Connection.class, key);
+    		connection = pm.getObjectById(Connection.class, id);
 			connection.setPlugin((Plugin) pm.getObjectById(Plugin.class, connection.getPluginKey()));
 			connection.setUser((User) pm.getObjectById(User.class, connection.getUserKey()));
         } 
@@ -85,8 +84,8 @@ public class ConnectionDAO {
 	public static void removeByID(long id) {
         PersistenceManager pm = PMF.get().getPersistenceManager();
     	try {
-    		Key key = KeyFactory.createKey(Connection.class.getName(), id);
-    		pm.deletePersistent(key);
+    		Connection connection = getByID(id); //how to optimize?
+    		pm.deletePersistent(connection);
         } 
         finally {
             pm.close();
